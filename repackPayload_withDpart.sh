@@ -22,7 +22,7 @@ name_list=$(find "$folder" -type f -exec basename {} \; | sed 's/\.[^.]*$//' | p
 
 file_list=$(find "$folder" -type f | paste -sd ":" -)
 
-./bin/delta_generator_$arch -out_file=output/unsigned-payload.bin -partition_names=$name_list -new_partitions=$file_list -dynamic_partition_info_file=./META/dynamic_partitions_info.txt -new_postinstall_config_file=./META/postinstall_config.txt
+./bin/delta_generator_$arch -out_file=output/unsigned-payload.bin -partition_names=$name_list -new_partitions=$file_list -dynamic_partition_info_file=./META/dynamic_partitions_info.txt
 
 ./bin/delta_generator_$arch --in_file=output/unsigned-payload.bin -signature_size=256 -out_metadata_hash_file=output/sig_metadata.bin -out_hash_file=output/sig_hash.bin
 
@@ -30,6 +30,10 @@ openssl pkeyutl -sign -inkey key/testkey.key -pkeyopt digest:sha256 -in output/s
 
 openssl pkeyutl -sign -inkey key/testkey.key -pkeyopt digest:sha256 -in output/sig_metadata.bin -out output/signed_metadata.bin
 
+rm -rf output/sig_hash.bin output/sig_metadata.bin
+
 ./bin/delta_generator_$arch --in_file=output/unsigned-payload.bin --out_file=output/payload.bin --signature_size=256 --metadata_signature_file=output/signed_metadata.bin --payload_signature_file=output/signed_hash.bin
+
+rm -rf output/signed_hash.bin output/signed_metadata.bin output/unsigned-payload.bin
 
 ./bin/delta_generator_$arch --in_file=output/payload.bin --properties_file=output/payload_properties.txt

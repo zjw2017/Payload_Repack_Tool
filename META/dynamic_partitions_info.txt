@@ -1,8 +1,8 @@
 virtual_ab=true
-super_partition_size=17179869184
-super_qti_dynamic_partitions_group_size=17175674880
+super_partition_size=9663676416
+super_qti_dynamic_partitions_group_size=9653190656
 super_partition_groups=qti_dynamic_partitions
-super_qti_dynamic_partitions_partition_list=my_company my_preload vbmeta
+super_qti_dynamic_partitions_partition_list=odm product system system_dlkm system_ext vendor vendor_dlkm mi_ext
 
 #virtual_ab_compression=false
 #virtual_ab_compression_method=gz

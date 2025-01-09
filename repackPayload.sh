@@ -30,6 +30,10 @@ openssl pkeyutl -sign -inkey key/testkey.key -pkeyopt digest:sha256 -in output/s
 
 openssl pkeyutl -sign -inkey key/testkey.key -pkeyopt digest:sha256 -in output/sig_metadata.bin -out output/signed_metadata.bin
 
+rm -rf output/sig_hash.bin output/sig_metadata.bin
+
 ./bin/delta_generator_$arch --in_file=output/unsigned-payload.bin --out_file=output/payload.bin --signature_size=256 --metadata_signature_file=output/signed_metadata.bin --payload_signature_file=output/signed_hash.bin
+
+rm -rf output/signed_hash.bin output/signed_metadata.bin output/unsigned-payload.bin
 
 ./bin/delta_generator_$arch --in_file=output/payload.bin --properties_file=output/payload_properties.txt
